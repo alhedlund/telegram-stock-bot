@@ -9,15 +9,17 @@ from typing import List, Optional, Tuple
 import pandas as pd
 import requests as r
 import schedule
-from markdownify import markdownify
+import os
 from pybit import spot
 import datetime as dt
 
 from Symbol import Coin
 
-import logging
 logging.basicConfig(filename="pybit.log", level=logging.DEBUG,
                     format="%(asctime)s %(levelname)s %(message)s")
+
+BYBIT_KEY = os.environ["BYBIT_KEY"]
+BYBIT_SECRET = os.environ["BYBIT_SECRET"]
 
 
 class BybitCrypto:
@@ -29,8 +31,8 @@ class BybitCrypto:
 
     session = spot.HTTP(
         endpoint='https://api.bybit.com',
-        api_key='58kay3apQLO4FwNTWm',
-        api_secret='SQEIRAf1DXsRwHn9tJdRusWXcqUVwK6ljaC0'
+        api_key=BYBIT_KEY,
+        api_secret=BYBIT_SECRET
     )
     # simple/supported_vs_currencies for list of options
 
@@ -139,6 +141,8 @@ class BybitCrypto:
             df.sort_index(ascending=False, inplace=True)
 
             df = df[:100]
+
+            df.sort_index(ascending=True, inplace=True)
 
             return df
 
