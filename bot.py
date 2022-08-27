@@ -32,10 +32,6 @@ from telegram.ext import (
 from symbol_router import Router
 from T_info import T_info
 
-from dotenv import load_dotenv
-load_dotenv()
-TELEGRAM_TOKEN = os.environ["TELEGRAM"]
-
 s = Router()
 t = T_info()
 
