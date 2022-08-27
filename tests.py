@@ -14,10 +14,10 @@ tests = """$$xno
 /dividend $tsla
 /dividend $msft
 /dividend $$btc
-/intra $tsla
-/intra $$btc
-/chart $tsla
-/chart $$btc
+/p $tsla
+/p $$btc
+/c $tsla
+/c $$btc
 /help
 /trending""".split(
     "\n"

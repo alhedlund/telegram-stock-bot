@@ -10,34 +10,14 @@ class Symbol:
     tag: Uppercase tag to call the symbol. ie $TSLA or $$BTC
     """
 
-    currency = "usd"
-    pass
-
     def __init__(self, symbol) -> None:
         self.symbol = symbol
-        self.id = symbol
-        self.name = symbol
-        self.tag = "$" + symbol
 
     def __repr__(self) -> str:
-        return f"<{self.__class__.__name__} instance of {self.id} at {id(self)}>"
+        return f"<{self.__class__.__name__} instance of {self.symbol} at {id(self)}>"
 
     def __str__(self) -> str:
-        return self.id
-
-
-class Stock(Symbol):
-    """Stock Market Object. Gets data from IEX Cloud"""
-
-    def __init__(self, symbol: pd.DataFrame) -> None:
-        if len(symbol) > 1:
-            logging.info(f"Crypto with shared id:\n\t{symbol.id}")
-            symbol = symbol.head(1)
-
-        self.symbol = symbol.symbol.values[0]
-        self.id = symbol.id.values[0]
-        self.name = symbol.name.values[0]
-        self.tag = symbol.type_id.values[0].upper()
+        return self.symbol
 
 
 class Coin(Symbol):
@@ -45,10 +25,13 @@ class Coin(Symbol):
 
     def __init__(self, symbol: pd.DataFrame) -> None:
         if len(symbol) > 1:
-            logging.info(f"Crypto with shared id:\n\t{symbol.id}")
+            logging.info(f"Crypto with shared id:\n\t{symbol.baseCurrency}")
             symbol = symbol.head(1)
 
-        self.symbol = symbol.symbol.values[0]
-        self.id = symbol.id.values[0]
-        self.name = symbol.name.values[0]
-        self.tag = symbol.type_id.values[0].upper()
+        self.symbol = symbol.baseCurrency.values[0]
+
+
+# ToDo: implement NFT subclass and add floor price commands
+# class NFT(Symbol):
+#     def __init__(self, symbol: pd.DataFrame) -> None:
+#         pass
