@@ -2,24 +2,19 @@ import keyboard
 import time
 
 
-tests = """$$xno
-/info $tsla
-/info $$btc
-/news $tsla
-/news $$btc
-/stat $tsla
-/stat $$btc
-/cap $tsla
-/cap $$btc
-/dividend $tsla
-/dividend $msft
-/dividend $$btc
-/p $tsla
-/p $$btc
-/c $tsla
-/c $$btc
+tests = """
+/p
+/c
+/p eth
+/price eth
+/p Btc
+/p btc
+/c eth
+/chart
+/c btc
 /help
-/trending""".split(
+/start
+/""".split(
     "\n"
 )
 

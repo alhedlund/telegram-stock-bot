@@ -8,24 +8,16 @@ import os
 import random
 import string
 import traceback
-from logging import critical, debug, error, info, warning
-from uuid import uuid4
+from logging import error, info, warning
 
 import mplfinance as mpf
 import telegram
 from telegram import (
-    InlineQueryResultArticle,
-    InputTextMessageContent,
-    LabeledPrice,
     Update,
 )
 from telegram.ext import (
     CallbackContext,
     CommandHandler,
-    Filters,
-    InlineQueryHandler,
-    MessageHandler,
-    PreCheckoutQueryHandler,
     Updater,
 )
 
@@ -102,7 +94,10 @@ def chart(update: Update, context: CallbackContext):
 
     if message.strip().split("@")[0] == "/c":
         update.message.reply_text(
-            "This command returns a chart of the stocks movement for the past month.\nExample: /c btc"
+            "This command returns a chart of the stocks movement for the past month.\nExample: /c btc\n\n" +
+            "Intervals:\n1 minute- 1m\n3 minute- 3m\n5 minute- 5m\n15 minute- 15m\n30 minute- 30m\n" +
+            "1 hour- 1h\n2 hour- 2h\n4 hour- 4h\n6 hour- 6h\n12 hour- 12h\n" +
+            "1 day- 1d\n1 week- 1w\n1 month- 1M"
         )
         return
 

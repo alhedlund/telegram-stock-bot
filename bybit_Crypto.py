@@ -99,6 +99,30 @@ class BybitCrypto:
         except:
             return f"ByBit API returned an error code {status.status_code} in {status.elapsed.total_seconds()} Seconds."
 
+    def get_one_hour_change(self, symbol: Coin, current_price: float) -> float:
+        """Returns 1hr change price for specific token.
+
+        Parameters
+        ----------
+        symbol : str
+            Token symbol.
+
+        current_price : float
+            Current price.
+
+        Returns
+        -------
+        float
+            Returns a float with 1hr change data for requested symbol.
+        """
+        df = self.chart_reply(symbol=symbol, frequency='1h')
+
+        df.sort_index(ascending=False, inplace=True)
+
+        past_hr_close = float(df['Close'][0])
+
+        return (float(current_price) / float(past_hr_close) - 1) * 100
+
     def chart_reply(self, symbol: Coin, frequency: str) -> pd.DataFrame:
         """Returns price data for a symbol of the past month up until the previous trading days close.
         Also caches multiple requests made in the same day.
@@ -114,7 +138,8 @@ class BybitCrypto:
         Returns
         -------
         pd.DataFrame
-            Returns a timeseries dataframe with high, low, and volume data if its available. Otherwise returns empty pd.DataFrame.
+            Returns a timeseries dataframe with high, low, and volume data if its available.
+            Otherwise returns empty pd.DataFrame.
         """
         if data := self.session.query_kline(
                 symbol=symbol.symbol + self.vs_currency, interval=frequency
@@ -149,7 +174,7 @@ class BybitCrypto:
         return pd.DataFrame()
 
     def stat_reply(self, symbol: Coin) -> str:
-        """Gathers key statistics on coin. Mostly just CoinGecko scores.
+        """Gathers most recent prices for given token from ByBit API.
 
         Parameters
         ----------
@@ -168,16 +193,18 @@ class BybitCrypto:
             open_price = data['openPrice']
             high_price = data['highPrice']
             low_price = data['lowPrice']
-            change = (float(now_price) / float(open_price) - 1) * 100
+            one_hr_change = self.get_one_hour_change(symbol, now_price)
+            twen_four_hr_change = (float(now_price) / float(open_price) - 1) * 100
 
             title = f"24h {symbol.symbol} Stats:\n\n"
             current_price = f"Current price: ${now_price}\n"
             _open = f"Open: ${open_price}\n"
             high = f"High: ${high_price}\n"
             low = f"Low: ${low_price}\n"
-            change = f"24h Change: {change:.2f}%\n"
+            one_change = f"1h Change: {one_hr_change:.2f}%\n"
+            twenty_four_change = f"24h Change: {twen_four_hr_change:.2f}%\n"
 
-            return title + current_price + _open + high + low + change
+            return title + current_price + _open + high + low + one_change + twenty_four_change
 
         else:
             return f"The price for {symbol.symbol} is not available. If you suspect this is an error run `/status`"
