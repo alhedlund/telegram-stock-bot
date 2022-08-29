@@ -26,7 +26,6 @@ class T_info:
 
 commands = """
 help - Get some help using the bot. 🆘
-info - [symbol] General information about the symbol. ℹ️
 p - [symbol] Key statistics about the symbol. 🔢
 c - [chart] [frequency] Plot of the past month. 📈
 """  # Not used by the bot but for updaing commands with BotFather

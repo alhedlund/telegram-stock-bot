@@ -119,9 +119,9 @@ class BybitCrypto:
 
         df.sort_index(ascending=False, inplace=True)
 
-        past_hr_close = float(df['Close'][0])
+        past_hr_close = float(df['Close'][1])
 
-        return (float(current_price) / float(past_hr_close) - 1) * 100
+        return (float(current_price) / past_hr_close - 1) * 100
 
     def chart_reply(self, symbol: Coin, frequency: str) -> pd.DataFrame:
         """Returns price data for a symbol of the past month up until the previous trading days close.
