@@ -189,18 +189,18 @@ class BybitCrypto:
                 symbol=symbol.symbol + self.vs_currency
         )['result']:
 
-            now_price = data['lastPrice']
-            open_price = data['openPrice']
-            high_price = data['highPrice']
-            low_price = data['lowPrice']
+            now_price = float(data['lastPrice'])
+            open_price = float(data['openPrice'])
+            high_price = float(data['highPrice'])
+            low_price = float(data['lowPrice'])
             one_hr_change = self.get_one_hour_change(symbol, now_price)
-            twen_four_hr_change = (float(now_price) / float(open_price) - 1) * 100
+            twen_four_hr_change = (now_price / open_price - 1) * 100
 
             title = f"24h {symbol.symbol} Stats:\n\n"
-            current_price = f"Current price: ${now_price}\n"
-            _open = f"Open: ${open_price}\n"
-            high = f"High: ${high_price}\n"
-            low = f"Low: ${low_price}\n"
+            current_price = f"Current price: ${now_price:.2f}\n"
+            _open = f"Open: ${open_price:.2f}\n"
+            high = f"High: ${high_price:.2f}\n"
+            low = f"Low: ${low_price:.2f}\n"
             one_change = f"1h Change: {one_hr_change:.2f}%\n"
             twenty_four_change = f"24h Change: {twen_four_hr_change:.2f}%\n"
 
